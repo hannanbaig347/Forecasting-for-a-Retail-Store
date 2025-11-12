@@ -1,4 +1,4 @@
-# 🛍️ Retail Sales Forecasting: Beating the Holiday Rush with SARIMAX
+# Retail Sales Forecasting: Beating the Holiday Rush with SARIMAX
 
 I built this project to tackle a classic, retail problem: how to accurately **forecast sales**. Simple models just don't cut it when you have to account for wild holiday swings, marketing promos, and long-term growth all at once.
 
@@ -45,9 +45,19 @@ After generating it, I loaded, cleaned, and set up the `Date` index for time ser
 ### 2. Exploratory Data Analysis (EDA)
 
 Before trying to model anything, I had to understand the data.
-* **Visualizing Sales over Time**
-* ![Visualizing Sales over Time](figures/Visualizing Sales over Time.png)
-* **Decomposition (STL):** I used STL decomposition to visually confirm the upward trend and the powerful yearly seasonal pattern.
+* **![Visualizing Sales over Time](figures/Visualizing_Sales_over_Time.png)**
+* **Decomposition :** To properly understand the sales data, I needed to break it down into its main components:
+* 1. **Trend**: A long-term increase or decrease in the data over time,
+  2. **Seasonality**: A pattern that repeats at regular intervals (e.g., weekly, monthly, yearly)
+  3. **Residuals**: The leftover noise
+
+* **![Classical Decomposition Plot](figures/Classical_Decomposition_Plot.png)**
+
+* **![ STL (Seasonal and Trend decomposition using Loess) Decomposition](figures/STL_Decomposition.png)**.
+
+* I generated two decomposition plots (shown above) —one classical and STL method. Both plots showed a consistent upward trend, which suggests that my sales are experiencing steady, long-term growth. Critically, the seasonal component in both decompositions revealed significant, repeating yearly patterns, peaking strongly towards the end of the year which is entirely typical for retail holiday rushes. The residuals from the STL decomposition looked even cleaner, appearing randomly distributed around zero. **This robustness of the STL method is important because it confirms the model effectively captured the trend and seasonality, leaving less unexplained noise**
+
+  
 * **Stationarity (ADF Test):** I ran the Augmented Dickey-Fuller test to see if the data was stable or if it needed transformations. This confirmed I'd need **differencing** ($d=1$, $D=1$) to get it ready for modeling.
 * **Autocorrelation (ACF/PACF):** These plots were my guide for picking the initial AR and MA parameters for the models.
 
