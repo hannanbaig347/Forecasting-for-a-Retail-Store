@@ -126,11 +126,43 @@ I split the data into a **30-month training set** and a **6-month validation set
    * Finally, I quantified this performance using several metrics <br>
    **![ARIMA_101_Errors](figures/ARIMA_101_Errors.png)** <br>
       Mean Absolute Error (MAE): 1636.91 means on average, the model`s forecasts are off by approximately $1,637 per month.<br>
-      Root Mean Squared Error (RMSE): 2803.29 <br>
-      This metric is larger than the MAE (2803.29 > 1636.91) because the squaring of the large December error heavily penalizes the RMSE. It indicates that large errors are a          significant problem for this model
+      Root Mean Squared Error (RMSE): 2803.29 <br><br>
+      This metric is larger than the MAE (2803.29 > 1636.91) because the squaring of the large December error heavily penalizes the RMSE. It indicates that large errors are a          significant problem for this model <br><br>
+      Mean Absolute Percentage Error (MAPE): 0.11% <br>
+      The average forecast is off by about 11% of the actual sales value. An 11% average error is generally considered acceptable for many real-world sales forecasts, except for       the clear failure in December.
+     <br>
+     ARIMA_101_Graph
+     **![ARIMA_101_Graph](figures/ARIMA_101_Graph.png)**
+     <br><br>
+
+     The forecasts, the errors and the above graph clearly demonstrate that the basic ARIMA model is insufficient 
+
+    * **Attempting and Failing with Multiple ARIMA Variants**
+
+      \> **ARIMA(1,0,0)** <br> <br>
+      **![ARIMA 1,0,0](figures/ARIMA_100.png)**
+      **![ARIMA 1,0,0](figures/ARIMA_100_Error.png)**
+      **![ARIMA 1,0,0](figures/ARIMA_100_Graph.png)**
       
-     
-     
+      <br>
+      
+      \> **ARIMA(0,0,1)** <br> <br>
+      **![ARIMA 0,0,1](figures/ARIMA_001.png)**
+      **![ARIMA 0,0,1](figures/ARIMA_001_Error.png)**
+      **![ARIMA 0,0,1](figures/ARIMA_001_Graph.png)**
+ 
+
+  
+      \> **ARIMA(0,0,0)** <br> <br>
+      **![ARIMA 0,0,0](figures/ARIMA_000.png)**
+      **![ARIMA 0,0,0](figures/ARIMA_000_Error.png)**
+      **![ARIMA 0,0,0](figures/ARIMA_000_Graph.png)**
+      
+      \> **ARIMA(1,1,1)** <br> <br>
+      **![ARIMA 1,1,1](figures/ARIMA_111.png)**
+      **![ARIMA 1,1,1](figures/ARIMA_111_Errors.png)**
+      **![ARIMA 1,1,1](figures/ARIMA_111_Graph.png)**
+
 
     * *Result:* A total failure. I tried multiple ARIMA setups, and they all fell flat. They were completely **blind to the 12-month seasonality** and couldn't predict the December sales spike to save their lives. This proved non-seasonal models were useless for this problem.
 
