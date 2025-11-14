@@ -261,10 +261,6 @@ I split the data into a **30-month training set** and a **6-month validation set
 
 
 
-    * *Result:* Much better. Prophet is great with holidays, so I gave it a shot. By tuning its `changepoint_prior_scale` and even setting manual changepoints for Oct-Dec, I got a decent model with an **RMSE of 2,027.45**. It's easy to read, but the accuracy still wasn't where I needed it to be.
-
-
-
 ---
 
 ## 🏆 Model Performance: The Final Tally
