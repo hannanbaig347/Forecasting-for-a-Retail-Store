@@ -225,6 +225,42 @@ I split the data into a **30-month training set** and a **6-month validation set
     * Having cleaned and formatted the data, I configured the Prophet model, deliberately turning off the default daily and weekly seasonality since my data was recorded monthly. <br>
     * I coded in such a way that the model looks for a **12-month** custom yearly cycle. <br>
     * Finally, I added the external factors of 'Promotion' and 'HolidayMonth' as special regressors, ensuring the model would consider their influence when generating its future forecast.
+ 
+ * **Attempting with Multiple Prophet Variants** <br><br>
+**
+      \> **Prophet - Seasonality Mode Additive - Fourier_order = 5** <br> <br>
+      My first attempt, using Additive Seasonality with a Fourier Order of 5, was immediately insightful, resulting in a Root Mean Squared Error (RMSE) of 2,096.18. However, the       crucial December forecast of 14,158 drastically underestimated the actual peak of 18,289, which could lead to severe inventory shortages during the most profitable month         of the year.
+      <br> 
+      **![Prophet 1](figures/1.png)**
+      **![Prophet 1](figures/2.png)**
+      **![Prophet 1](figures/3.png)****
+
+
+      \> **Prophet - Seasonality Mode Additive - Fourier_order = 10** <br> <br>
+      I tried increasing the complexity by using a Fourier Order of 10, but this didn't significantly improve the December forecast.
+      <br> 
+      **![Prophet 4](figures/4.png)**
+
+
+
+      \> **Prophet - Seasonality Mode: Multiplicative - Fourier_order = 5** <br> <br>
+      Next, I tested the Multiplicative Seasonality mode, which is better suited for sales data where the seasonal swing grows as the baseline sales increase
+      <br> 
+      **![Prophet 5](figures/5.png)**
+      **![Prophet 6](figures/6.png)**
+
+
+      \> **Prophet - Seasonality Mode: Multiplicative - Fourier_order = 10** <br> <br>
+ 
+      **![Prophet 5](figures/7.png)**
+      **![Prophet 6](figures/8.png)** <br><br>
+
+      Despite this logical shift, both Multiplicative models (with Fourier Orders 5 and 10) actually performed worse, yielding higher RMSEs and lower December forecasts. The           best forecast for December came from the initial simple Additive model (Fourier Order 5), which provided a forecast of 14,158.20.
+
+    
+
+
+
     * *Result:* Much better. Prophet is great with holidays, so I gave it a shot. By tuning its `changepoint_prior_scale` and even setting manual changepoints for Oct-Dec, I got a decent model with an **RMSE of 2,027.45**. It's easy to read, but the accuracy still wasn't where I needed it to be.
 
 
