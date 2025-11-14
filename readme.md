@@ -166,11 +166,11 @@ I split the data into a **30-month training set** and a **6-month validation set
 
     * *Result:* A total failure. I tried multiple ARIMA setups, and they all fell flat. They were completely **blind to the 12-month seasonality** and couldn't predict the December sales spike to save their lives. This proved non-seasonal models were useless for this problem.
 
-
+<br><br>
 * **Attempt 2: SARIMA**
     * ARIMA models were failing to capture the retail seasonality, I pivoted to the Seasonal ARIMA (SARIMA) model.
 
-     * **Attempting with Multiple SARIMA Variants**
+     * **Attempting with Multiple SARIMA Variants** <br><br>
 **
       \> **SARIMA (1,1,1)(1,1,1,12)** <br> <br>
       **![SARIMA (1,1,1)(1,1,1,12)](figures/SARIMA_11111112.png)**
@@ -183,17 +183,17 @@ I split the data into a **30-month training set** and a **6-month validation set
       **![SARIMA 11111112 Exog](figures/SARIMA_11111112_Exog.png)**
       **![SARIMA 11111112 Exog](figures/SARIMA_11111112_Error.png)**
       **![SARIMA 11111112 Exog](figures/SARIMA_11111112_Graph.png)**
- **
+ 
  <br>
   
-**      \> **SARIMA (1,1,2)(1,0,1,12) with Exogenous Features** <br> <br>
+**    \> **SARIMA (1,1,2)(1,0,1,12) with Exogenous Features** <br> <br>
       **![SARIMA_11210112_exog](figures/SARIMA_11210112_exog.png)**
       **![SARIMA_11210112_exog](figures/SARIMA_11210112_exog_error.png)**
       **![SARIMA_11210112_exog](figures/SARIMA_11210112_exog_Graph.png)****
 
-       <br>
-**      \> **SARIMA (2,1,2)(0,1,0,12) with Exogenous Features** <br> <br>
-      **![SARIMA 21201012 exog](figures/SARIMA 21201012 exog.png)**
+       
+**     \> **SARIMA (2,1,2)(0,1,0,12) with Exogenous Features** <br> <br>
+      **![SARIMA 21201012 exog](figures/SARIMA_21201012_exog.png)**
       **!SARIMA 21201012 exog](figures/SARIMA_21201012_exog_error.png)**
       **![SARIMA 21201012 exog](figures/SARIMA_21201012_exog_graph.png)****
    <br> <br>
