@@ -173,6 +173,8 @@ I split the data into a **30-month training set** and a **6-month validation set
      * **Attempting with Multiple SARIMA Variants** <br><br>
 **
       \> **SARIMA (1,1,1)(1,1,1,12)** <br> <br>
+      The first SARIMA model was a significant improvement, with the RMSE dropping to 1,440.38 and the critical December forecast jumping to 15,169, making it far more accurate        than any ARIMA model. **This increased accuracy means supply chain teams can now forecast inventory with much higher confidence, preventing costly stockouts and                    overstocking.**
+      <br> 
       **![SARIMA (1,1,1)(1,1,1,12)](figures/SARIMA_11111112.png)**
       **![SARIMA (1,1,1)(1,1,1,12)](figures/SARIMA_11111112_Errors.png)**
       **![SARIMA (1,1,1)(1,1,1,12)](figures/SARIMA_11111112_Graph_1.png)****
@@ -180,6 +182,10 @@ I split the data into a **30-month training set** and a **6-month validation set
       
 **      
       \> **SARIMA (1,1,1)(1,1,1,12) with Exogenous Features** <br> <br>
+      Next, I enhanced the model by adding the Promotion and HolidayMonth flags as exogenous features to create a SARIMAX model. 
+      <br>
+      The SARIMAX(1, 1, 1)(1, 1, 1, 12) model with exogenous features yielded the best result yet, achieving an RMSE of 1,174.10 and pushing the December forecast even closer to       the actual value at 15,756
+      <br>
       **![SARIMA 11111112 Exog](figures/SARIMA_11111112_Exog.png)**
       **![SARIMA 11111112 Exog](figures/SARIMA_11111112_Error.png)**
       **![SARIMA 11111112 Exog](figures/SARIMA_11111112_Graph.png)**
@@ -187,6 +193,7 @@ I split the data into a **30-month training set** and a **6-month validation set
  <br> <br>
   
 **    \> **SARIMA (1,1,2)(1,0,1,12) with Exogenous Features** <br> <br>
+              <br>         
       **![SARIMA_11210112_exog](figures/SARIMA_11210112_exog.png)**
       **![SARIMA_11210112_exog](figures/SARIMA_11210112_exog_error.png)**
       **![SARIMA_11210112_exog](figures/SARIMA_11210112_exog_Graph.png)****
@@ -194,15 +201,30 @@ I split the data into a **30-month training set** and a **6-month validation set
 <br> <br>
        
 **     \> **SARIMA (2,1,2)(0,1,0,12) with Exogenous Features** <br> <br>
+      This led me to explore SARIMAX(2, 1, 2)(0, 1, 0, 12), which gave the best performance metrics overall with a Mean Absolute Error (MAE) of 754.88 and an RMSE of 1,017.34.         <br>
+      This final model's December forecast was 16,092, very close to the actual 18,289 peak. <br>
+      Achieving this level of accuracy is a massive win for the business, translating directly into <br> 
+      > optimized inventory levels, <br>
+      > tighter budget adherence, <br>
+      > maximum profit <br>
+      captured during the all-important holiday season. <br>
+      The use of exogenous features in SARIMAX was the key to moving beyond simplistic time trends to actionable, high-impact business forecasting.<br>
       **![SARIMA 21201012 exog](figures/SARIMA_21201012_exog.png)**
       **![SARIMA 21201012 exog](figures/SARIMA_21201012_exog_error.png)**
       **![SARIMA 21201012 exog](figures/SARIMA_21201012_exog_graph.png)****
    <br> <br>
     * *Result:* This is where the magic happened. SARIMAX is built for this. It combines seasonal components ($S$) with the ability to add **external regressors** ($X$). By feeding it the **Promotion** and **HolidayMonth** flags, the model could finally see the *why* behind the numbers.
-    * The final tuned model, **SARIMAX(2, 1, 2)(0, 1, 0, 12) + Exogenous**, blew the others away.
+    * The final tuned model, **SARIMAX(2, 1, 2)(0, 1, 0, 12) + Exogenous**, blew the others away. <br><br>
 
 
-* **Attempt 3: Facebook Prophet**
+* **Attempt 3: Facebook Prophet** <br>
+    * After maximizing the performance of SARIMAX, I realized that I should explore one more class of models i.e. Facebook Prophet. <br><br>
+    * I  prepared the data, making a clean copy and renaming my 'Date' and 'SalesAmount' columns to the required **'ds'** and **'y'** so the model could understand the input. <br>As the December sales are uniquely high, I defined a custom holiday calendar specifically for those months to capture seasonal spike separately. <br>
+    
+    * To prevent mistakes from skewing my predictions, I used the z-score method to detect any potential outliers. <br>
+    * Having cleaned and formatted the data, I configured the Prophet model, deliberately turning off the default daily and weekly seasonality since my data was recorded monthly. <br>
+    * I coded in such a way that the model looks for a **12-month** custom yearly cycle. <br>
+    * Finally, I added the external factors of 'Promotion' and 'HolidayMonth' as special regressors, ensuring the model would consider their influence when generating its future forecast.
     * *Result:* Much better. Prophet is great with holidays, so I gave it a shot. By tuning its `changepoint_prior_scale` and even setting manual changepoints for Oct-Dec, I got a decent model with an **RMSE of 2,027.45**. It's easy to read, but the accuracy still wasn't where I needed it to be.
 
 
