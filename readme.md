@@ -275,12 +275,12 @@ The results speak for themselves. The SARIMAX model wasn't just a little betterâ
 
 ---
 
-## ðŸš€ The Payoff: What This Model Delivers
+## What This Model Delivers
 
 After finding the winner, I retrained the SARIMAX model on the entire 48-month dataset to make it as smart as possible. This final model provides two huge advantages for a business:
 
-* **You Can Finally Measure Marketing:** The model learned the real impact of our promos. The final summary showed that a single promotion adds **+2,457 units to sales** in a given month. The marketing team can now calculate the **precise ROI** for their campaigns.
-* **No More Guesswork for Inventory:** I used the model to generate a **6-month rolling forecast**. It gives the operations team a **95% confidence interval**, which is huge. Instead of one number, they get a practical range for planning. This means they can confidently order stock, knowing they've minimized the risk of stockouts and overstocking.
+* **You Can Finally Measure Marketing:** Since the SARIMAX(2, 1, 2)(0, 1, 0, 12) model proved to be the most accurate, I selected it as the final production model and retrained it using the entire 48 months of historical sales data (Jan 2020 through Dec 2023). This is a crucial step in machine learning, as training on all available data maximizes the model's ability to learn the long-term trend and seasonal patterns.
+* **No More Guesswork for Inventory:** I used the model to generate a **6-month forecast**. , the output included a 95% confidence interval (CI), which is the most valuable output for a risk manager; for March, the forecast of 16,759 comes with a range of approximately 15,182 to 18,338. This CI tells the business that while 16,759 is the best guess, they must be prepared for sales to potentially reach over 18,000, giving a clear, data-driven margin for inventory safety stock. The forecast also predicts a seasonal trough in June with sales dropping to 9,698, allowing the purchasing department to strategically decrease orders and conserve working capital during the slower summer months. 
 
 This project provides a clear path from reactive, gut-feel decisions to **proactive, data-driven planning.**
 
