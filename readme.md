@@ -269,9 +269,9 @@ The results speak for themselves. The SARIMAX model wasn't just a little betterâ
 
 | Model | Best Parameters | Best Metric (RMSE) | My Takeaway |
 | :--- | :--- | :--- | :--- |
-| ARIMA | (Multiple) | ~2,700 - 3,600 | Inadequate. Fails to model seasonality. |
-| Prophet | Manual Changepoints, prior_scale=0.5 | 2,027.45 | Good and interpretable, but not the most accurate. |
-| **SARIMAX** | **(2, 1, 2)(0, 1, 0, 12) + Exogenous** | **1,017.34** | **WINNER.** Best accuracy & it explains why. |
+| ARIMA | (Multiple) | ~2,700 - 2800 | Inadequate. Fails to model seasonality. |
+| Prophet | Manual Changepoints, prior_scale=0.5 | 2,096.18 | Good and interpretable, but not the most accurate. |
+| **SARIMAX** | **(2, 1, 2)(0, 1, 0, 12) + Exogenous** | **1,017.34** | **WINNER.** Best accuracy |
 
 ---
 
