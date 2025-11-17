@@ -131,3 +131,23 @@ The **[full notebook](Notebooks/Forecasting_for_a_Retail_Store.ipynb)** shows th
 * **Compares Models Head-to-Head:** Tests ARIMA, SARIMAX, and Prophet to find the undisputed winner.
 * **Delivers Actionable Forecasts:** Gives a 6-month forecast with a 95% confidence range, providing a clear guide for managing risk.
 * **Includes the Data:** The synthetic dataset and the data generation script are all in the notebook.
+
+## Real-World Impact
+This project illustrates how time series forecasting with exogenous variables can be applied to:
+* Retail demand forecasting for inventory optimization
+* Marketing impact assessment (e.g., promotions or holiday effects)
+* Financial planning and revenue projections
+* Operational scheduling (e.g., staffing, logistics, and production planning)
+* By implementing models like SARIMA, organizations can move from reactive decision-making to predictive and data-driven planning, ultimately saving costs and improving business performance.
+
+## Author
+Author: Muhammad Hannan Baig
+Role: MS Computer Science (NUST) | Data Science & AI Practitioner
+Work: Thesis on AI-driven Air Pollution Estimation | Data Science at Kangaroo Ventures
+Contact:
+
+Email: muhammadhannanbaig@gmail.com
+
+GitHub: [github.com/hannanbaig347](https://github.com/hannanbaig347)
+
+LinkedIn: linkedin.com/in/hannanbaig347
