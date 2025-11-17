@@ -1,8 +1,20 @@
 # Retail Sales Forecasting: Beating the Holiday Rush with SARIMAX
 
-I built this project to tackle a classic, retail problem: how to accurately **forecast sales**. Simple models just don't work when you have to account for holiday sales surges, marketing promos, and long-term growth all at once.
+I built this project to tackle a classic retail problem: how to accurately **forecast sales**. Simple models just don't work when you have to account for holiday sales, marketing promos, and long-term growth all at once.
 
-My goal was to create a tool that could actually be used by an operations or marketing team. The final model, a fine-tuned **SARIMAX**, doesn't just guess—it **quantifies the impact of promotions** and gives a clear picture of the months ahead, helping teams optimize inventory and stop losing money.
+My goal was to create a tool that could actually be used by an operations or marketing team. The final model, a fine-tuned **SARIMAX**, doesn't just guess— it **quantifies the impact of promotions** and gives a clear picture of the months ahead, helping teams optimize inventory and stop losing money.
+
+---
+
+## 📜 Table of Contents
+
+* [The Business Problem: Why This Matters](#the-business-problem-why-this-matters)
+* [Tech Stack & Installation](#️-tech-stack--installation)
+* [How to Run](#-how-to-run)
+* [Project Structure](#-project-structure)
+* [The Winning Model & Final Forecast](#-the-winning-model--final-forecast)
+* [Summary of Analysis & Model Comparison](#-summary-of-analysis--model-comparison)
+* [Project Capabilities](#-project-capabilities)
 
 ---
 
@@ -17,291 +29,93 @@ This project was all about building a **reliable solution** to avoid those probl
 
 ---
 
-##  What This Project Can Do
+## 🛠️ Tech Stack & Installation
 
-* **Analyzes the Full Picture:** It breaks down the sales data to see the real trend, the 12-month seasonal patterns, and the impact of business decisions.
-* **Quantifies What Matters:** It measures the exact sales lift from things like **marketing promotions**.
-* **Compares Models Head-to-Head:** I didn't just pick one model. I tested **ARIMA, SARIMAX, and Prophet** to find the undisputed winner.
-* **Delivers Actionable Forecasts:** The final model gives a **6-month forecast with a 95% confidence range**, so you're not just getting a single number—you're getting a clear guide for managing risk.
-* **Includes the Data:** I've included the Python script I used to generate the realistic 4-year (48-month) **synthetic dataset**, complete with trends, seasonality, and promo flags.
+This project uses standard Python data science libraries. To get set up, I recommend using a virtual environment.
+
+1.  Clone this repository:
+    ```bash
+    git clone [https://github.com/hannanbaig347/Forecasting-for-a-Retail-Store](https://github.com/hannanbaig347/Forecasting-for-a-Retail-Store)
+    cd your-repo-name
+    ```
+2.  Create and activate a virtual environment:
+    ```bash
+    # On macOS/Linux
+    python3 -m venv venv
+    source venv/bin/activate
+
+    # On Windows
+    python -m venv venv
+    venv\Scripts\activate
+    ```
+3.  Install the required libraries:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
 
 ---
 
-## My Workflow: From Data to Forecast
+## How to Run
 
-I followed a structured process to make sure the model was built on a solid foundation.
+The entire analysis, from data generation to final model, is contained in one Jupyter Notebook.
 
-### 1. Data Generation & Prep
+1.  Make sure your virtual environment is activated.
+2.  Launch Jupyter Notebook from your terminal:
+    ```bash
+    jupyter notebook
+    ```
+3.  In the browser window that opens, click on **`Forecasting_for_a_Retail_Store.ipynb`**.
+4.  You can run all cells from top to bottom to reproduce the full analysis, see the model comparisons, and generate the final forecast.
 
-First, I needed good data. I built a 4-year synthetic dataset from scratch using `pandas` and `numpy`. This let me create a realistic baseline (`retail_sales_mock_data.csv`) that included:
+---
+---
 
-* A steady **upward trend** through "base_sales = 10000 + np.arange(num_months) * 50" (depicts the company growth).
+## The Winning Model & Final Forecast
+
+The final, best-performing model was retrained on the entire 4-year dataset to make a 6-month forecast (Jan 2024 - June 2024). This forecast isn't just a single number; it's a guide for managing risk.
+
+By inputting a planned promotion schedule, the model delivers a 95% confidence interval (CI) that translates directly into business actions:
+
+* **Actionable Inventory Planning:** For a planned March promotion, the model predicts **16,759** in sales but provides a CI of **[15,182, 18,338]**. This tells an operations manager the *exact range* to plan for, providing a clear, data-driven margin for safety stock.
+* **Preserving Cash Flow:** The forecast shows an expected dip in June (predicting **9,698** sales). This is a strong signal to the purchasing department to strategically decrease orders and conserve working capital during a known slow month.
+
+This model moves the business from reactive "gut-feel" decisions to **proactive, data-driven planning.**
+
+---
+
+## Summary of Analysis & Model Comparison
+
+Before landing on the winner, I followed a structured process. (The full, detailed exploration is in the notebook and the PDF report — this is just the summary).
+
+### 1. Data & EDA
+I generated a 4-year synthetic dataset (`retail_sales_mock_data.csv`) that realistically includes:
+* A steady upward **trend** (company growth).
 * Strong **12-month seasonality** (the holiday rush).
 * Binary flags for **Promotions** and **Holidays**.
-* A bit of random **noise** through np.random.normal (like tiny unpredictable changes in sales such as weather, supply hiccups, customer behavior).
 
-After generating it, I loaded, cleaned, and set up the `Date` index for time series analysis.
+Exploratory Data Analysis (using STL decomposition and the ADF test) confirmed these patterns and showed the data was **stationary**, meaning it was ready for modeling without differencing.
 
-<br>
-<br>
-<br>
+### 2. Feature Engineering
+To give the model historical context, I engineered several **lag features** (sales from 1, 2, 3, 6, and 12 months prior).
 
-### 2. Exploratory Data Analysis (EDA)
-
-Before trying to model anything, I had to understand the data.
-**![Visualizing Sales over Time](figures/Visualizing_Sales_over_Time.png)**
-* **Decomposition :** To properly understand the sales data, I needed to break it down into its main components:
-* 1. **Trend**: A long-term increase or decrease in the data over time,
-  2. **Seasonality**: A pattern that repeats at regular intervals (e.g., weekly, monthly, yearly)
-  3. **Residuals**: The leftover noise
-
- **![Classical Decomposition Plot](figures/Classical_Decomposition_Plot.png)**
-
- **![STL (Seasonal and Trend decomposition using Loess) Decomposition](figures/STL_Decomposition.png)**.
-
-* I generated two decomposition plots (shown above) —one classical and STL method. Both plots showed a consistent upward trend, which suggests that my sales are experiencing steady, long-term growth. Critically, the seasonal component in both decompositions revealed significant, repeating yearly patterns, peaking strongly towards the end of the year which is entirely typical for retail holiday rushes. The residuals from the STL decomposition looked even cleaner, appearing randomly distributed around zero. **This robustness of the STL method is important because it confirms the model effectively captured the trend and seasonality, leaving less unexplained noise**
-
-
- **![Stationarity (ADF Test)](figures/ADF_Test.png)**.
- 
-* **Stationarity (ADF Test):** I ran the Augmented Dickey-Fuller (ADF) test (shown above) to see if the data was stable (stationary) or if it needed transformations. I ran the adfuller test on the SalesAmount column, and the results were great! The ADF Statistic came out very negative at -4.334. More importantly, the p-value was extremely low at 0.000388, which is far below the standard 0.05 significance threshold. Because the p-value is so small, I can confidently reject the null hypothesis that the data is non-stationary (has a unit root). This strong evidence tells me that the sales data is already stationary. This is a huge win because it means I won't have to apply complicated transformations like differencing to stabilize the series before I start building the ARIMA or SARIMA model. The data is ready for modeling
-
-  
-* **Analyzing Time Dependency with ACF and PACF**: To prepare for building an effective forecasting model, I needed to understand the time-based dependencies in the sales data. Instead of looking at simple correlation between two different variables, I focused on autocorrelation, which measures how sales at the current month are related to sales from previous months.
-* I generated two key plots for this checking up to 24 months (lags) back:
-* a. the Autocorrelation Function (ACF)
-* b. Partial Autocorrelation Function (PACF),
-
-* **![Autocorrelation_Function_(ACF)_of_Sales Amount](figures/Autocorrelation_Function_(ACF)_of_Sales_Amount.png)**.
-* **![Partial_Autocorrelation_Function_(PACF)_of_Sales_Amount](figures/Partial_Autocorrelation_Function_(PACF)_of_Sales_Amount.png)**
-* The Autocorrelation Function (ACF) plot shows how the sales amount at different time lags correlates with the current sales value. At lag 0, the autocorrelation is 1, indicating perfect correlation with itself, as expected. The visible peaks around lag 6 and 12 suggest that there’s a repeating pattern roughly every 6 and 12 months, which points to seasonality — for example, a holiday or shopping trend that happens once a year
-* Partial Autocorrelation Function (PACF) plot isolates the direct effect of past months on the current month’s sales, removing the “middle steps.” The biggest drop after lag 1 shows that last month’s sales have the most direct influence, while later months have a weaker or indirect impact.
-
-* In short:
-  ACF = “Everything that might have an effect, directly or through other months.”
-  PACF = “Only the immediate, direct impact from specific past months.”
-
-<br>
-<br>
-<br>
-
-### 3. Feature Engineering: Introducing Lagged Sales
-
-* Sales today are often influenced by sales from the last few months. For example, if sales were high last month due to a promotion, that momentum might carry forward. <br>
-* My model needs those past values to “see” that pattern. <br>
-* I wrote a Python function called create_lag_features specifically to handle this. <br>
-* Inside, I used a loop to iterate through a list of specified lag periods (1,2,3,6,12), employing the pandas.shift() method to slide the SalesAmount values down by the appropriate number of months. <br><br>
-  The column "SalesAmount_lag_1" represents sales from 1 month ago <br> 
-  The column "SalesAmount_lag_2" represents sales from 2 months ago <br>
-  The column "SalesAmount_lag_3" represents sales from 3 months ago <br>
-  The column "SalesAmount_lag_6" represents sales from 6 months ago <br>
-  The column "SalesAmount_lag_12" represents sales from 12 month ago <br><br>
-  
-  The lags collectively let my model “look back” over different time horizons — short, medium, and long-term — to learn repeating sales patterns more accurately <br>
-
-  After running the function, my new DataFrame, "sales_data_with_lags", now has **8 columns**, including the **5 brand-new lag features**. <br><br>
-  As expected, looking at the .info() output, the total number of entries dropped from 48 to 36 because the first 12 rows were removed due to the 12-month lag.<br><br>
-  This new, richer dataset, starting from January 2021, was saved to **retail_sales_with_lags.csv**. <br><br>
-  Finally, I ran the **Augmented Dickey-Fuller (ADF) test one more time** on the new dataset's SalesAmount column. <br><br>
-
-**![Augmented Dickey Fuller Test on Sales Data with Lags](figures/ADF_Test_Lags.png)**.
-
-  The resulting p-value of 0.0044 is still well below 0.05, confirming that the series remains stationary even after adding the lag features. This successful feature engineering   step means the dataset is now fully prepared for advanced predictive modeling.
-  <br><br><br>
-
-### 4. The Model: Finding a Winner
-
-I split the data into a **30-month training set** and a **6-month validation set** to see which model could perform best on unseen data.
-
-* **Attempt 1: ARIMA** <br>
-
-   \> **ARIMA(1,0,1)**
-
-   * I started with a simple ARIMA(1, 0, 1) model, which incorporates one previous month's sales (AR=1) and one previous month's prediction error (MA=1). The I=0 part was             crucial, as I already proved the data was stationary and didn't need differencing. <br>
-   * The arima_model.fit() function executed the machine learning, finding the optimal parameters to minimize the prediction error on the training data. The model summary looked      solid, confirming the parameters were statistically significant. I then immediately used the trained model to forecast sales for the next 6 steps, corresponding directly to      the unseen data in the validationSet.<br>
-   * Comparing the actual sales to the forecast showed a serious problem, especially in December 2023: the actual sales spiked to 18,289, but the model only predicted 11,590,         completely missing the huge seasonal holiday lift. <br>
-     **![ARIMA_101](figures/ARIMA_101.png)** <br>
-   * The model struggles significantly with the last data point (December 2023), **under-forecasting the actual sales by nearly $6,700**. This massive error suggests a strong         seasonal spike in December that the simple ARIMA(1,0,1) model failed to capture. The model's forecasts for July through November are much closer to the actual values.
-   * This discrepancy has immediate real-world implications; if a business relies on this forecast, they would drastically under-order inventory, leading to missed sales              opportunities and poor customer satisfaction during the peak holiday season. <br>
-   * Finally, I quantified this performance using several metrics <br>
-   **![ARIMA_101_Errors](figures/ARIMA_101_Errors.png)** <br>
-      Mean Absolute Error (MAE): 1636.91 means on average, the model`s forecasts are off by approximately $1,637 per month.<br>
-      Root Mean Squared Error (RMSE): 2803.29 <br><br>
-      This metric is larger than the MAE (2803.29 > 1636.91) because the squaring of the large December error heavily penalizes the RMSE. It indicates that large errors are a          significant problem for this model <br><br>
-      Mean Absolute Percentage Error (MAPE): 0.11% <br>
-      The average forecast is off by about 11% of the actual sales value. An 11% average error is generally considered acceptable for many real-world sales forecasts, except for       the clear failure in December.
-     <br>
-     ARIMA_101_Graph
-     **![ARIMA_101_Graph](figures/ARIMA_101_Graph.png)**
-     <br><br>
-
-     The forecasts, the errors and the above graph clearly demonstrate that the basic ARIMA model is insufficient 
-
-    * **Attempting and Failing with Multiple ARIMA Variants**
-
-      \> **ARIMA(1,0,0)** <br> <br>
-      **![ARIMA 1,0,0](figures/ARIMA_100.png)**
-      **![ARIMA 1,0,0](figures/ARIMA_100_Error.png)**
-      **![ARIMA 1,0,0](figures/ARIMA_100_Graph.png)**
-      
-      <br>
-      
-      \> **ARIMA(0,0,1)** <br> <br>
-      **![ARIMA 0,0,1](figures/ARIMA_001.png)**
-      **![ARIMA 0,0,1](figures/ARIMA_001_Error.png)**
-      **![ARIMA 0,0,1](figures/ARIMA_001_Graph.png)**
- 
-
-  
-      \> **ARIMA(0,0,0)** <br> <br>
-      **![ARIMA 0,0,0](figures/ARIMA_000.png)**
-      **![ARIMA 0,0,0](figures/ARIMA_000_Error.png)**
-      **![ARIMA 0,0,0](figures/ARIMA_000_Graph.png)**
-      
-      \> **ARIMA(1,1,1)** <br> <br>
-      **![ARIMA 1,1,1](figures/ARIMA_111.png)**
-      **![ARIMA 1,1,1](figures/ARIMA_111_Errors.png)**
-      **![ARIMA 1,1,1](figures/ARIMA_111_Graph.png)**
-
-
-    * *Result:* A total failure. I tried multiple ARIMA setups, and they all fell flat. They were completely **blind to the 12-month seasonality** and couldn't predict the December sales spike to save their lives. This proved non-seasonal models were useless for this problem.
-
-<br><br>
-* **Attempt 2: SARIMA**
-    * ARIMA models were failing to capture the retail seasonality, I pivoted to the Seasonal ARIMA (SARIMA) model.
-
-     * **Attempting with Multiple SARIMA Variants** <br><br>
-**
-      \> **SARIMA (1,1,1)(1,1,1,12)** <br> <br>
-      The first SARIMA model was a significant improvement, with the RMSE dropping to 1,440.38 and the critical December forecast jumping to 15,169, making it far more accurate        than any ARIMA model. **This increased accuracy means supply chain teams can now forecast inventory with much higher confidence, preventing costly stockouts and                    overstocking.**
-      <br> 
-      **![SARIMA (1,1,1)(1,1,1,12)](figures/SARIMA_11111112.png)**
-      **![SARIMA (1,1,1)(1,1,1,12)](figures/SARIMA_11111112_Errors.png)**
-      **![SARIMA (1,1,1)(1,1,1,12)](figures/SARIMA_11111112_Graph_1.png)****
-      
-      
-**      
-      \> **SARIMA (1,1,1)(1,1,1,12) with Exogenous Features** <br> <br>
-      Next, I enhanced the model by adding the Promotion and HolidayMonth flags as exogenous features to create a SARIMAX model. 
-      <br>
-      The SARIMAX(1, 1, 1)(1, 1, 1, 12) model with exogenous features yielded the best result yet, achieving an RMSE of 1,174.10 and pushing the December forecast even closer to       the actual value at 15,756
-      <br>
-      **![SARIMA 11111112 Exog](figures/SARIMA_11111112_Exog.png)**
-      **![SARIMA 11111112 Exog](figures/SARIMA_11111112_Error.png)**
-      **![SARIMA 11111112 Exog](figures/SARIMA_11111112_Graph.png)**
- 
- <br> <br>
-  
-**    \> **SARIMA (1,1,2)(1,0,1,12) with Exogenous Features** <br> <br>
-              <br>         
-      **![SARIMA_11210112_exog](figures/SARIMA_11210112_exog.png)**
-      **![SARIMA_11210112_exog](figures/SARIMA_11210112_exog_error.png)**
-      **![SARIMA_11210112_exog](figures/SARIMA_11210112_exog_Graph.png)****
-
-<br> <br>
-       
-**     \> **SARIMA (2,1,2)(0,1,0,12) with Exogenous Features** <br> <br>
-      This led me to explore SARIMAX(2, 1, 2)(0, 1, 0, 12), which gave the best performance metrics overall with a Mean Absolute Error (MAE) of 754.88 and an RMSE of 1,017.34.         <br>
-      This final model's December forecast was 16,092, very close to the actual 18,289 peak. <br>
-      Achieving this level of accuracy is a massive win for the business, translating directly into <br> 
-      > optimized inventory levels, <br>
-      > tighter budget adherence, <br>
-      > maximum profit <br>
-      captured during the all-important holiday season. <br>
-      The use of exogenous features in SARIMAX was the key to moving beyond simplistic time trends to actionable, high-impact business forecasting.<br>
-      **![SARIMA 21201012 exog](figures/SARIMA_21201012_exog.png)**
-      **![SARIMA 21201012 exog](figures/SARIMA_21201012_exog_error.png)**
-      **![SARIMA 21201012 exog](figures/SARIMA_21201012_exog_graph.png)****
-   <br> <br>
-    * *Result:* This is where the magic happened. SARIMAX is built for this. It combines seasonal components ($S$) with the ability to add **external regressors** ($X$). By feeding it the **Promotion** and **HolidayMonth** flags, the model could finally see the *why* behind the numbers.
-    * The final tuned model, **SARIMAX(2, 1, 2)(0, 1, 0, 12) + Exogenous**, blew the others away. <br><br>
-
-
-* **Attempt 3: Facebook Prophet** <br>
-    * After maximizing the performance of SARIMAX, I realized that I should explore one more class of models i.e. Facebook Prophet. <br><br>
-    * I  prepared the data, making a clean copy and renaming my 'Date' and 'SalesAmount' columns to the required **'ds'** and **'y'** so the model could understand the input. <br>As the December sales are uniquely high, I defined a custom holiday calendar specifically for those months to capture seasonal spike separately. <br>
-    
-    * To prevent mistakes from skewing my predictions, I used the z-score method to detect any potential outliers. <br>
-    * Having cleaned and formatted the data, I configured the Prophet model, deliberately turning off the default daily and weekly seasonality since my data was recorded monthly. <br>
-    * I coded in such a way that the model looks for a **12-month** custom yearly cycle. <br>
-    * Finally, I added the external factors of 'Promotion' and 'HolidayMonth' as special regressors, ensuring the model would consider their influence when generating its future forecast.
- 
- * **Attempting with Multiple Prophet Variants** <br><br>
-**
-      \> **Prophet - Seasonality Mode Additive - Fourier_order = 5** <br> <br>
-      My first attempt, using Additive Seasonality with a Fourier Order of 5, was immediately insightful, resulting in a Root Mean Squared Error (RMSE) of 2,096.18. However, the       crucial December forecast of 14,158 drastically underestimated the actual peak of 18,289, which could lead to severe inventory shortages during the most profitable month         of the year.
-      <br> 
-      **![Prophet 1](figures/1.png)**
-      **![Prophet 1](figures/2.png)**
-      **![Prophet 1](figures/3.png)****
-
-
-      \> **Prophet - Seasonality Mode Additive - Fourier_order = 10** <br> <br>
-      I tried increasing the complexity by using a Fourier Order of 10, but this didn't significantly improve the December forecast.
-      <br> 
-      **![Prophet 4](figures/4.png)**
-
-
-
-      \> **Prophet - Seasonality Mode: Multiplicative - Fourier_order = 5** <br> <br>
-      Next, I tested the Multiplicative Seasonality mode, which is better suited for sales data where the seasonal swing grows as the baseline sales increase
-      <br> 
-      **![Prophet 5](figures/5.png)**
-      **![Prophet 6](figures/6.png)**
-
-
-      \> **Prophet - Seasonality Mode: Multiplicative - Fourier_order = 10** <br> <br>
- 
-      **![Prophet 5](figures/7.png)**
-      **![Prophet 6](figures/8.png)** <br><br>
-
-      Despite this logical shift, both Multiplicative models (with Fourier Orders 5 and 10) actually performed worse, yielding higher RMSEs and lower December forecasts. The           best forecast for December came from the initial simple Additive model (Fourier Order 5), which provided a forecast of 14,158.20.
-
-    
-
-
-
----
-
-##  Comparison of Model Performance:
+### 3. Head-to-Head Model Comparison
+I tested three classes of models to find the one that could best handle seasonality *and* external factors.
 
 | Model | Best Parameters | Best Metric (RMSE) | My Takeaway |
 | :--- | :--- | :--- | :--- |
-| ARIMA | (Multiple) | ~2,700 - 2800 | Inadequate. Fails to model seasonality. |
-| Prophet | Manual Changepoints, prior_scale=0.5 | 2,096.18 | Good and interpretable, but not the most accurate. |
-| **SARIMAX** | **(2, 1, 2)(0, 1, 0, 12) + Exogenous** | **1,017.34** | **WINNER.** Best accuracy |
+| ARIMA | (Multiple) | ~2,700 - 2800 | **Total failure.** Completely blind to seasonality and useless for this problem. |
+| Prophet | (Tuned) | 2,096.18 | Good and interpretable, but not the most accurate. |
+| **SARIMAX** | **(2, 1, 2)(0, 1, 0, 12) + Exog** | **1,017.34** | **WINNER.** The combination of seasonal components ($S$) and exogenous features ($X$) made it the most accurate by a wide margin. |
+
+The full notebook shows the experimentation, but the conclusion is clear: **SARIMAX** was the only model capable of accurately capturing all the complex drivers of retail sales.
 
 ---
 
-## What This Model Delivers
+## ✨ Project Capabilities
 
-After finding the winner, I retrained the SARIMAX(2, 1, 2)(0, 1, 0, 12) model on the entire 48-month dataset (Jan 2020 through Dec 2023). 
-
-* I then constructed a future scenario for the next six months (Jan 2024 to June 2024), inputting a planned schedule of promotions for March and May. 
-* I used the model to generate a **6-month forecast**.
-* The output included a 95% confidence interval (CI), which is the most valuable output for a risk manager;
-* For March, the forecast of 16,759 comes with a range of approximately 15,182 to 18,338. This CI tells the business that while 16,759 is the best guess, they must be prepared for sales to potentially reach over 18,000, **giving a clear, data-driven margin for inventory safety stock**.
-* The forecast also predicts a sudden drop in in June with sales dropping to 9,698, allowing the purchasing department to **strategically decrease orders and conserve working capital** during the slower summer months.
-* This final SARIMAX model, with its proven accuracy and ability to incorporate future marketing actions, is now ready to be deployed as the official tool for all medium-term sales planning, offering significant real-world benefits across the entire supply chain.
-
-This project provides a clear path from reactive, gut-feel decisions to **proactive, data-driven planning.**
-
----
-
-## 🛠️ Tech & Libraries Used
-
-* **Python 3.x**
-* **pandas:** For all the data wrangling and time series magic.
-* **numpy:** For numerical operations and building the dataset.
-* **statsmodels:** The powerhouse for time series analysis (ADF, STL, ACF/PACF) and the **SARIMAX model**.
-* **prophet:** For building the Prophet comparison model.
-* **matplotlib:** For all the visualizations.
-* **missingno:** For a quick visual check on missing data.
-
----
-
-## 📂 Check out the work:
-
-* The main analysis and model building is in the **Retail_Forecasting_Analysis.ipynb** notebook.
-* The raw data I generated is **retail_sales_mock_data.csv**.
-* The data with engineered lag features is **retail_sales_with_lags.csv**.
+* **Analyzes the Full Picture:** Breaks down sales data to see the real trend, the 12-month seasonal patterns, and the impact of business decisions.
+* **Quantifies What Matters:** Measures the exact sales lift from things like marketing promotions.
+* **Compares Models Head-to-Head:** Tests ARIMA, SARIMAX, and Prophet to find the undisputed winner.
+* **Delivers Actionable Forecasts:** Gives a 6-month forecast with a 95% confidence range, providing a clear guide for managing risk.
+* **Includes the Data:** The synthetic dataset and the data generation script are all in the notebook.
