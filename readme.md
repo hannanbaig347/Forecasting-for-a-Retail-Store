@@ -66,7 +66,7 @@ To set up, I recommend using a virtual environment.
 
 ## How to Run
 
-The entire analysis, from data generation to final model, is contained in one Jupyter Notebook.
+The entire analysis, from data generation to final model, is contained in **[one Jupyter Notebook](Notebooks/Forecasting_for_a_Retail_Store.ipynb)**
 
 1.  Make sure your virtual environment is activated.
 2.  Launch Jupyter Notebook from your terminal:
