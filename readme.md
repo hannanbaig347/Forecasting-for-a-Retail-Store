@@ -14,6 +14,7 @@ My goal was to create a tool that could actually be used by an operations or mar
 * [The Winning Model & Final Forecast](#the-winning-model--final-forecast)
 * [Summary of Analysis & Model Comparison](#summary-of-analysis--model-comparison)
 * [Project Capabilities](#project-capabilities)
+* [Real-World Impact](#real-world-impact)
 ---
 
 ## The Business Problem: Why This Matters
@@ -150,4 +151,4 @@ Email: muhammadhannanbaig@gmail.com
 
 GitHub: [github.com/hannanbaig347](https://github.com/hannanbaig347)
 
-LinkedIn: linkedin.com/in/hannanbaig347
+LinkedIn: [Hannan Baig](https://www.linkedin.com/in/hannan-baig-b10320325)
