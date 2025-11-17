@@ -9,12 +9,11 @@ My goal was to create a tool that could actually be used by an operations or mar
 ## 📜 Table of Contents
 
 * [The Business Problem: Why This Matters](#the-business-problem-why-this-matters)
-* [Tech Stack & Installation](#️tech-stack--installation)
-* [How to Run](#-how-to-run)
-* [Project Structure](#-project-structure)
-* [The Winning Model & Final Forecast](#-the-winning-model--final-forecast)
-* [Summary of Analysis & Model Comparison](#-summary-of-analysis--model-comparison)
-* [Project Capabilities](#-project-capabilities)
+* [Tech Stack & Installation](#️tech-stack-installation)
+* [How to Run](#how-to-run)
+* [The Winning Model & Final Forecast](#the-winning-model-final-forecast)
+* [Summary of Analysis & Model Comparison](#summary-of-analysis-model-comparison)
+* [Project Capabilities](#project-capabilities)
 
 ---
 
