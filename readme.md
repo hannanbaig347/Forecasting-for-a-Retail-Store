@@ -9,7 +9,7 @@ My goal was to create a tool that could actually be used by an operations or mar
 ## 📜 Table of Contents
 
 * [The Business Problem: Why This Matters](#the-business-problem-why-this-matters)
-* [Tech Stack & Installation](#️-tech-stack--installation)
+* [Tech Stack & Installation](#️tech-stack--installation)
 * [How to Run](#-how-to-run)
 * [Project Structure](#-project-structure)
 * [The Winning Model & Final Forecast](#-the-winning-model--final-forecast)
@@ -31,6 +31,7 @@ This project was all about building a **reliable solution** to avoid those probl
 
 ## 🛠️ Tech Stack & Installation
 <br>
+
 * **Python 3.12.0**
 * **pandas:** For all the data wrangling and time series
 * **numpy:** For numerical operations and building the dataset.
