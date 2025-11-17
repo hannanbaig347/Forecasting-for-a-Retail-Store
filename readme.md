@@ -142,10 +142,10 @@ This project illustrates how time series forecasting with exogenous variables ca
 * By implementing models like SARIMA, organizations can move from reactive decision-making to predictive and data-driven planning, ultimately saving costs and improving business performance.
 
 ## Author
-Author: Muhammad Hannan Baig
-Role: MS Computer Science (NUST) | Data Science & AI Practitioner
-Work: Thesis on AI-driven Air Pollution Estimation | Data Science at Kangaroo Ventures
-Contact:
+* Author: Muhammad Hannan Baig
+* MS Computer Science (NUST)
+* Work: Thesis on AI-driven Air Pollution Estimation | Data Science at Kangaroo Ventures
+* Contact:
 
 Email: muhammadhannanbaig@gmail.com
 
