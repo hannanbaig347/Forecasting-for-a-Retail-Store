@@ -83,6 +83,10 @@ The entire analysis, from data generation to final model, is contained in **[one
 
 The final, best-performing model was retrained on the entire 4-year dataset to make a 6-month forecast (Jan 2024 - June 2024). This forecast isn't just a single number; it's a guide for managing risk.
 
+**![Final 1](figures/Final 1.png)** <br><br>
+
+**![Final 2](figures/Final 2.png)** <br><br>
+
 By inputting a planned promotion schedule, the model delivers a 95% confidence interval (CI) that translates directly into business actions:
 
 * **Actionable Inventory Planning:** For a planned March promotion, the model predicts **16,759** in sales but provides a CI of **[15,182, 18,338]**. This tells an operations manager the *exact range* to plan for, providing a clear, data-driven margin for safety stock.
