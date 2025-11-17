@@ -27,7 +27,7 @@ This project was all about building a **reliable solution** to avoid those probl
 
 ---
 
-## 🛠️ Tech Stack & Installation
+## Tech Stack & Installation
 <br>
 
 * **Python 3.12.0**
@@ -120,7 +120,7 @@ The full notebook shows the experimentation, but the conclusion is clear: **SARI
 
 ---
 
-## ✨ Project Capabilities
+## Project Capabilities
 
 * **Analyzes the Full Picture:** Breaks down sales data to see the real trend, the 12-month seasonal patterns, and the impact of business decisions.
 * **Quantifies What Matters:** Measures the exact sales lift from things like marketing promotions.
