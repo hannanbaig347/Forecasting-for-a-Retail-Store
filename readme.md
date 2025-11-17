@@ -116,7 +116,7 @@ I tested three classes of models to find the one that could best handle seasonal
 | Prophet | (Tuned) | 2,096.18 | Good and interpretable, but not the most accurate. |
 | **SARIMAX** | **(2, 1, 2)(0, 1, 0, 12) + Exog** | **1,017.34** | **WINNER.** The combination of seasonal components ($S$) and exogenous features ($X$) made it the most accurate by a wide margin. |
 
-The **[full notebook](Forecasting-for-a-Retail-Store/Notebooks/Forecasting_for-a-Retail_Store.ipynb)** shows the experimentation, but the conclusion is clear: **SARIMAX** was the only model capable of accurately capturing all the complex drivers of retail sales.
+The **[full notebook](Notebooks/Forecasting_for-a-Retail_Store.ipynb)** shows the experimentation, but the conclusion is clear: **SARIMAX** was the only model capable of accurately capturing all the complex drivers of retail sales.
 
 ---
 
