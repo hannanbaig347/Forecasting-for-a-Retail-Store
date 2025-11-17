@@ -30,8 +30,17 @@ This project was all about building a **reliable solution** to avoid those probl
 ---
 
 ## 🛠️ Tech Stack & Installation
+<br>
+* **Python 3.12.0**
+* **pandas:** For all the data wrangling and time series
+* **numpy:** For numerical operations and building the dataset.
+* **statsmodels:** For time series analysis (ADF, STL, ACF/PACF) , ARIMA, **SARIMAX model**.
+* **Scikit-learn** For evaluation metrics
+* **Prophet:** For building the Prophet comparison model.
+* **matplotlib:** For all the visualizations.
+* **missingno:** For a quick visual check on missing data.
 
-This project uses standard Python data science libraries. To get set up, I recommend using a virtual environment.
+To set up, I recommend using a virtual environment.
 
 1.  Clone this repository:
     ```bash
