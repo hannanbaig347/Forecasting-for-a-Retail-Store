@@ -99,7 +99,7 @@ This model moves the business from reactive "gut-feel" decisions to **proactive,
 
 ## Summary of Analysis & Model Comparison
 
-Before landing on the winner, I followed a structured process. (The full, detailed exploration is in the **[notebook](Notebooks/Forecasting_for_a_Retail_Store.ipynb)** and the PDF report — this is just the summary).
+Before landing on the winner, I followed a structured process. (The full, detailed exploration is in the **[notebook](Notebooks/Forecasting_for_a_Retail_Store.ipynb)** and the **[PDF report](Outputs/Report.pdf)** — this is just the summary).
 
 ### 1. Data & EDA
 I generated a 4-year synthetic dataset **[retail_sales_mock_data.csv](Data/retail_sales_mock_data.csv)** that includes:
