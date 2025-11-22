@@ -17,6 +17,8 @@ My goal was to create a tool that could actually be used by an operations or mar
 * [Real-World Impact](#real-world-impact)
 ---
 
+**[READ THE FULL TECHNICAL REPORT (PDF)](/Outputs/Report.pdf)**
+
 ## The Business Problem: Why This Matters
 
 Every retailer knows the pain of getting the forecast wrong. It's a constant balancing act that leads to two costly mistakes:
